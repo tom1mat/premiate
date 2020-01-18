@@ -1,0 +1,27 @@
+{
+  "name": "premiate",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "antd": "^3.26.0",
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "connect": "^3.7.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.26",
+    "mongoose": "^5.7.5",
+    "node-cron": "^2.0.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.0.1",
+    "set-tz": "^0.2.0",
+    "socket.io": "^2.2.0"
+  },
+  "scripts": {
+   "start": "node ./server & node ./server/front.js",
+   "start-dev": "nodemon ./server & cd ./web ; npm start"
+  }
+}

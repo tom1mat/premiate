@@ -1,0 +1,6 @@
+{
+    "builds": [
+      { "src": "./server/index.js", "use": "@now/node" },
+      { "src": "./server/front.js", "use": "@now/node" }
+    ]
+  }
