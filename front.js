@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 
 app.get('/', function (req, res) {
-  const buildPath = path.resolve(`${__dirname}/../web/build`);
+  const buildPath = path.resolve(`${__dirname}/build`);
   app.use(express.static(buildPath));
   res.sendFile(`${buildPath}/index.html`);
 });

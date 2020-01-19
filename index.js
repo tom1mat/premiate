@@ -53,8 +53,8 @@ process.env.TZ = 'America/Buenos_Aires';
 //     });
 //   });
 // }
-
-server.listen(__PORT);
+console.log('PROCESS EN PORT: ', process.env.PORT);
+server.listen(8080);//__PORT);
 app.use(require('body-parser').json());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
