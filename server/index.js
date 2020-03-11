@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const path = require('path');
+const fs = require('fs');
 
 const {
   dbModels: {
@@ -29,10 +30,11 @@ const {
 
 mongoose.connect(__MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
+
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   console.log('CONNECTED MONGO!');
-  console.log('Listening on: '+__PORT);
+  console.log('Listening on: ' + __PORT);
 });
 
 io.on("connection", function (socket) {
@@ -100,11 +102,12 @@ app.post("/raiseSubasta", (req, res) => {
 });
 
 app.get("/newSorteo", async (req, res) => {
-  await createModel('subastas', { 
+  await createModel('subastas', {
     title: "Subasta 1",
     dateString: "2019-12-25T18:09:00",
     ammount: 3748,
-    status: "PENDING" });
+    status: "PENDING"
+  });
   res.status(200).send();
 });
 
@@ -288,13 +291,61 @@ app.post("/updateUser", (req, res) => {
 });
 
 app.post("/process-payment", (req, res) => {
-  console.log('aquiii');
   console.log(req.body);
 });
 
-app.get('/', function(req, res) {
-  res.header('Content-Type', 'text/html');
+app.get('/', function (req, res) {
+  res.header('Content-Type', 'text/html; charset=utf-8');
   const buildPath = path.resolve(`${__dirname}/../web/build`);
-  app.use(express.static(buildPath));
+  // No me funciono el buildPath por eso tuve que crear la ruta * para traer todos los recursos.
+  // app.use(express.static(buildPath));
   res.sendFile(`${buildPath}/index.html`);
+});
+
+app.get('*', function (req, res) {
+  const buildPath = path.resolve(`${__dirname}/../web/build`);
+  const extension = path.extname(req.url);
+  const name = req.url.split('/').pop();
+  const filePath = buildPath + req.url;
+  const file = fs.readFileSync(filePath)
+
+  try {
+    switch (extension) {
+      case '.js':
+        res.setHeader("Content-Type", 'application/javascript');
+        res.write(file);
+        return res.end();
+      case '.css':
+        res.setHeader("Content-Type", 'text/css');
+        res.write(file);
+        return res.end();
+      case '.png':
+        res.setHeader("Content-Type", 'image/png');
+        res.write(file);
+        return res.end();
+      case '.jpg':
+        res.setHeader("Content-Type", 'image/jpeg');
+        res.write(file);
+        return res.end();
+      case '.html':
+        res.setHeader("Content-Type", 'text/html; charset=utf-8');
+        res.write(file);
+        return res.end();
+      default:
+        fs.exists(filePath, function (exists) {
+          if (exists) {
+            res.setHeader("Content-Type", 'text/plain');
+            res.write(fs.readFileSync(filePath));
+            return res.end();
+          }
+
+          return res.status(404).send();
+        });
+
+        break;
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(404).send();
+  }
 });

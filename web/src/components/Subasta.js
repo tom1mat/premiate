@@ -98,8 +98,6 @@ class Subasta extends React.PureComponent {
     // ammount: los credits de la subasta.
     // userCredits: Los credits que tiene el usuario en su cuenta.
     const { creditsUsed, localAmmount, ammount } = this.state;
-    const userCredits = this.props.userData.credits;
-    const creditsSum = creditsUsed + localAmmount;
     if (!this.props.isSignedIn) {
       notification.warning({
         placement: 'bottomRight',
@@ -117,6 +115,9 @@ class Subasta extends React.PureComponent {
       });
       return;
     }
+
+    const userCredits = this.props.userData.credits;
+    const creditsSum = creditsUsed + localAmmount;
     
     if (creditsSum > userCredits) {
       this.setState({ isRaiseButtonDisabled: true });
