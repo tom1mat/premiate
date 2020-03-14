@@ -1,0 +1,17 @@
+@keyframes float{
+    0%{
+        transform:translateY(15px)
+    }
+    50%{
+        transform:translateY(0)
+    }
+    100%{
+        transform:translateY(15px)
+    }
+}
+.float{
+    animation: float 2.5s;
+    will-change: transform;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
