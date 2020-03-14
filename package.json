@@ -22,6 +22,7 @@
   },
   "scripts": {
    "start": "node ./server & node ./server/front.js",
+   "build-start": "cd ./web ; npm run build ; node ../server & node ../server/front.js",
    "start-dev": "nodemon ./server & cd ./web ; npm start"
   }
 }
