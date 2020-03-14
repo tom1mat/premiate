@@ -21,8 +21,8 @@
     "socket.io": "^2.2.0"
   },
   "scripts": {
-   "start": "node ./server & node ./server/front.js",
-   "start-build": "cd ./web ; npm run build ; node ../server & node ../server/front.js",
+   "start": "node ./server",
+   "start-build": "cd ./web ; npm run build ; node ../server",
    "start-dev": "nodemon ./server & cd ./web ; npm start"
   }
 }
