@@ -11,6 +11,7 @@ import { __API_URL, __CLIENT_ID_GOOGLE } from './config';
 import reducers from './reducers';
 import PageHome from './components/PageHome';
 import PageProfile from './components/PageProfile';
+import PagePanel from './components/PagePanel';
 
 const store = createStore(reducers);
 
@@ -69,6 +70,9 @@ export default () => (
           </Route>
           <Route path="/cuenta">
             <PageProfile />
+          </Route>
+          <Route path="/panel">
+            <PagePanel />
           </Route>
         </Switch>
       </Router>

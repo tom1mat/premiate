@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Subasta } from './MyComponents';
 
+import { __API_URL } from './config';
+
 export default class Subastas extends React.Component {
   constructor() {
     super();
@@ -11,7 +13,7 @@ export default class Subastas extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch('http://localhost:8080/getSubastas');
+    const response = await fetch(`${__API_URL}getSubastas`);
     if (response.status === 200) {
       const subastas = await response.json();
       this.setState({ subastas });
