@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Subasta } from './MyComponents';
 
-import { __API_URL } from './config';
+import { __API_URL } from '../config';
 
 export default class Subastas extends React.Component {
   constructor() {
