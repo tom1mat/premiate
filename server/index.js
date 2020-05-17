@@ -105,6 +105,7 @@ app.post("/raiseSubasta", (req, res) => {
         io.sockets.emit(`raise-${req.body.id}`, amount, email, name);
         res.status(200).send({ creditsUsed });
       } catch (error) {
+        console.error(error);
         res.status(500).send();
       }
     }
