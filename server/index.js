@@ -83,6 +83,8 @@ app.post("/raiseSubasta", (req, res) => {
       res.sendStatus(403);
     } else {
       const { userAmount, email, name } = req.body;
+      console.log('--- Body ----');
+      console.log(req.body);
       try {
         const user = await getModel('users', { email });
         const subasta = await getModel('subastas', { _id: req.body.id });
