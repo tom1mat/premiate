@@ -88,9 +88,10 @@ app.post("/raiseSubasta", (req, res) => {
       try {
         const user = await getModel('users', { email });
         const subasta = await getModel('subastas', { _id: req.body.id });
-
+        
+        const amount = Number.parseInt(userAmount) + Number.parseInt(subasta.amount);
         const subastaData = {
-          amount: Number.parseInt(userAmount) + Number.parseInt(subasta.amount),
+          amount,
           winnerId: user._id
         };
 
@@ -103,7 +104,7 @@ app.post("/raiseSubasta", (req, res) => {
         updateModel('users', { email }, userData);
         // 3) Update in all the fronts
         io.sockets.emit(`raise-${req.body.id}`, amount, email, name);
-        res.status(200).send({ creditsUsed });
+        res.status(200).send(userData);
       } catch (error) {
         console.error(error);
         res.status(500).send();
