@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const subastaSchema = new Schema({
     title: String,
     dateString: String,
-    ammount: Number,
+    amount: Number,
     status: String,
     winnerId: String,
 });

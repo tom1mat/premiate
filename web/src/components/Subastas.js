@@ -31,7 +31,7 @@ export default class Subastas extends React.Component {
             </div>
           </div>
           <div className="row">
-          {this.state.subastas.map((subasta) => ( <Subasta key={subasta._id} id={subasta._id} ammount={subasta.ammount} title={subasta.title} dateString={subasta.dateString}/>))}
+          {this.state.subastas.map((subasta) => ( <Subasta key={subasta._id} id={subasta._id} amount={subasta.amount} title={subasta.title} dateString={subasta.dateString}/>))}
           </div>
         </div>
       </section>

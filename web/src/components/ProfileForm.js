@@ -14,7 +14,7 @@ import { __API_URL } from '../config';
 
 class RegistrationForm extends React.Component {
   state = {
-    ammount: 100,
+    amount: 100,
   }
   componentWillMount() {
     const { name, surname, email, googleData } = this.props.userData;
@@ -80,8 +80,8 @@ class RegistrationForm extends React.Component {
     });
   };
 
-  handleAmmountChange = (ev) => {
-    this.setState({ ammount: ev.target.value });
+  handleAmountChange = (ev) => {
+    this.setState({ amount: ev.target.value });
   }
 
   render() {
@@ -136,9 +136,9 @@ class RegistrationForm extends React.Component {
                 </Button>
               </Form.Item>
             </Form>
-            <ButtonMercadoPago text="Cargar 100 credits" ammount={100} />
-            <ButtonMercadoPago text="Cargar 500 credits" ammount={500} />
-            <ButtonMercadoPago text="Cargar 1000 credits" ammount={1000} />
+            <ButtonMercadoPago text="Cargar 100 credits" amount={100} />
+            <ButtonMercadoPago text="Cargar 500 credits" amount={500} />
+            <ButtonMercadoPago text="Cargar 1000 credits" amount={1000} />
           </Card>
         </>
       );

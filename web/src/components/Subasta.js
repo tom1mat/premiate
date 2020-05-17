@@ -9,8 +9,8 @@ import ButtonMercadoPago from './ButtonMercadoPago';
 
 class Subasta extends React.PureComponent {
   state = {
-    ammount: this.props.ammount,
-    localAmmount: 1,
+    amount: this.props.amount,
+    localAmount: 1,
     notification: '',
     creditsUsed: (this.props.userData && this.props.userData.creditsUsed) ? this.props.userData.creditsUsed : 0,
     isRaiseButtonDisabled: false,
@@ -74,15 +74,15 @@ class Subasta extends React.PureComponent {
       socket.on('updateSubastas', function (subastas) {
         _this.setState({ subastas });
       });
-      socket.on(`raise-${_this.props.id}`, function (ammount, email, name) {
+      socket.on(`raise-${_this.props.id}`, function (amount, email, name) {
         if (email !== _this.props.userData.email) {
           notification.info({
             placement: 'bottomRight',
-            message: `${name || 'Un usuario '} aumentó el importe a ${ammount}`,
+            message: `${name || 'Un usuario '} aumentó el importe a ${amount}`,
           });
         }
 
-        _this.setState({ ammount })
+        _this.setState({ amount })
       });
     });
   }
@@ -94,10 +94,10 @@ class Subasta extends React.PureComponent {
   handleRaise = async (e) => {
     e.preventDefault();
     // creditsUsed: Los credits que el usuario aposto, pero que todavia no gano porque no termino la apuesta.
-    // localAmmount: los credits que el usuario apuesta por cada apuesta.
-    // ammount: los credits de la subasta.
+    // localAmount: los credits que el usuario apuesta por cada apuesta.
+    // amount: los credits de la subasta.
     // userCredits: Los credits que tiene el usuario en su cuenta.
-    const { creditsUsed, localAmmount, ammount } = this.state;
+    const { creditsUsed, localAmount, amount } = this.state;
     if (!this.props.isSignedIn) {
       notification.warning({
         placement: 'bottomRight',
@@ -107,7 +107,7 @@ class Subasta extends React.PureComponent {
       return;
     }
 
-    if (localAmmount === 0) {
+    if (localAmount === 0) {
       notification.warning({
         placement: 'bottomRight',
         duration: 15,
@@ -117,14 +117,14 @@ class Subasta extends React.PureComponent {
     }
 
     const userCredits = this.props.userData.credits;
-    const creditsSum = creditsUsed + localAmmount;
+    const creditsSum = creditsUsed + localAmount;
     
     if (creditsSum > userCredits) {
       this.setState({ isRaiseButtonDisabled: true });
       const diff = creditsSum - userCredits;
       notification.warning({
         placement: 'bottomRight',
-        message: <>No tienes credits suficientes! Te faltan {diff} <ButtonMercadoPago text="Recargar" ammount={diff} /></>,
+        message: <>No tienes credits suficientes! Te faltan {diff} <ButtonMercadoPago text="Recargar" amount={diff} /></>,
         onClose: () => this.setState({ isRaiseButtonDisabled: false }),
       });
       return;
@@ -135,8 +135,8 @@ class Subasta extends React.PureComponent {
       id: this.props.id,
       email: this.props.userData.email,
       name: this.props.userData.name,
-      ammount: localAmmount + ammount,
-      userAmmount: localAmmount,
+      amount: localAmount + amount,
+      userAmount: localAmount,
     });
     const response = await fetch(`${__API_URL}raiseSubasta`, {
       method: 'POST',
@@ -163,8 +163,8 @@ class Subasta extends React.PureComponent {
     }
   }
 
-  handleLocalAmmount = (value) => {
-    this.setState({ localAmmount: value });
+  handleLocalAmount = (value) => {
+    this.setState({ localAmount: value });
   }
 
   render() {
@@ -180,11 +180,11 @@ class Subasta extends React.PureComponent {
         <p>{minutes} Minutos</p>
         <p>{hours} Horas</p>
         <p>{days} Días</p>
-        <div className="ammount">{this.state.ammount}</div>
+        <div className="amount">{this.state.amount}</div>
         <form>
           <InputNumber
             defaultValue={1}
-            onChange={this.handleLocalAmmount}
+            onChange={this.handleLocalAmount}
             min={1}
           />
           <label>{this.state.notification}</label>

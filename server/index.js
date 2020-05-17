@@ -82,17 +82,25 @@ app.post("/raiseSubasta", (req, res) => {
       console.log('ERROR: Could not connect to the protected route');
       res.sendStatus(403);
     } else {
-      const { ammount, userAmmount, email, name } = req.body;
+      const { userAmount, email, name } = req.body;
       try {
         const user = await getModel('users', { email });
-        const creditsUsed = (user.creditsUsed || 0) + userAmmount;
-        console.log(creditsUsed);
+        const subasta = await getModel('subastas', { _id: req.body.id });
+
+        const subastaData = {
+          amount: Number.parseInt(userAmount) + Number.parseInt(subasta.amount),
+          winnerId: user._id
+        };
+
+        const creditsUsed = (user.creditsUsed || 0) + userAmount;
+        const userData = { creditsUsed }
+
         // 1) Update subasta in mongo
-        updateModel('subastas', { _id: req.body.id }, { ammount, winnerId: user._id });
+        updateModel('subastas', { _id: req.body.id }, subastaData);
         // 2) Update
-        updateModel('users', { email }, { creditsUsed });
+        updateModel('users', { email }, userData);
         // 3) Update in all the fronts
-        io.sockets.emit(`raise-${req.body.id}`, ammount, email, name);
+        io.sockets.emit(`raise-${req.body.id}`, amount, email, name);
         res.status(200).send({ creditsUsed });
       } catch (error) {
         res.status(500).send();
@@ -105,7 +113,7 @@ app.get("/newSorteo", async (req, res) => {
   await createModel('subastas', {
     title: "Subasta 1",
     dateString: "2019-12-25T18:09:00",
-    ammount: 3748,
+    amount: 3748,
     status: "PENDING"
   });
   res.status(200).send();
