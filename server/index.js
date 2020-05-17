@@ -92,8 +92,8 @@ app.post("/raiseSubasta", (req, res) => {
           winnerId: user._id
         };
 
-        const creditsUsed = (user.creditsUsed || 0) + userAmount;
-        const userData = { creditsUsed }
+        const creditsUsed = (user.creditsUsed || 0) +  Number.parseInt(userAmount);
+        const userData = { creditsUsed };
 
         // 1) Update subasta in mongo
         updateModel('subastas', { _id: req.body.id }, subastaData);
